@@ -5,7 +5,7 @@
 1. Open HACS in Home Assistant.
 2. Go to `Integrations`.
 3. Select the three-dot menu and choose `Custom repositories`.
-4. Add this repository URL.
+4. Add this repository URL: `https://github.com/rbabok/rootfs-monitor-ha`.
 5. Category: `Integration`.
 6. Install `RootFS Monitor` from HACS.
 7. Restart Home Assistant.

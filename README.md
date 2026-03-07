@@ -2,6 +2,8 @@
 
 Custom Home Assistant integration to investigate rootfs usage, expose exact per-consumer sensors, and run guarded cleanup for high-impact consumers.
 
+Repository URL: `https://github.com/rbabok/rootfs-monitor-ha`
+
 ## Features
 
 - Rootfs exact sensors: total, used, free, used percent.
@@ -34,7 +36,18 @@ Important:
 - Cleanup requires write access on target paths.
 - If your host root is mounted read-only, cleanup services will fail safely.
 
-## Install
+## Install (HACS via URL)
+
+1. Open HACS in Home Assistant.
+2. Go to `Integrations`.
+3. Open the three-dot menu and select `Custom repositories`.
+4. Add `https://github.com/rbabok/rootfs-monitor-ha`.
+5. Choose category `Integration`.
+6. Install `RootFS Monitor` from HACS.
+7. Restart Home Assistant.
+8. Add integration from UI: **Settings -> Devices & Services -> Add Integration -> RootFS Monitor**.
+
+## Manual Install
 
 1. Copy `custom_components/rootfs_monitor` into your Home Assistant config directory.
 2. Restart Home Assistant.
