@@ -1,0 +1,50 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "RootFS Monitor",
+        "description": "Configure host rootfs monitoring and pressure thresholds.",
+        "data": {
+          "host_root": "Host root mount path",
+          "scan_interval": "Scan interval (seconds)",
+          "top_n": "Number of top consumers",
+          "warn_percent": "Warning threshold (%)",
+          "crit_percent": "Critical threshold (%)"
+        }
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "RootFS Monitor options",
+        "data": {
+          "scan_interval": "Scan interval (seconds)",
+          "top_n": "Number of top consumers",
+          "warn_percent": "Warning threshold (%)",
+          "crit_percent": "Critical threshold (%)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "rootfs_total_bytes": {"name": "RootFS total"},
+      "rootfs_used_bytes": {"name": "RootFS used"},
+      "rootfs_free_bytes": {"name": "RootFS free"},
+      "rootfs_used_percent": {"name": "RootFS used percent"},
+      "rootfs_pressure_level": {"name": "RootFS pressure level"},
+      "docker_total_bytes": {"name": "Docker total"},
+      "docker_images_bytes": {"name": "Docker images"},
+      "docker_containers_bytes": {"name": "Docker containers"},
+      "docker_volumes_bytes": {"name": "Docker volumes"},
+      "docker_build_cache_bytes": {"name": "Docker build cache"},
+      "journald_disk_usage_bytes": {"name": "Journald disk usage"},
+      "apt_cache_bytes": {"name": "APT cache"},
+      "var_log_bytes": {"name": "/var/log usage"},
+      "last_cleanup_status": {"name": "Last cleanup status"},
+      "last_cleanup_reclaimed_bytes": {"name": "Last cleanup reclaimed bytes"},
+      "top_rootfs_consumer": {"name": "Top RootFS consumer"}
+    }
+  }
+}

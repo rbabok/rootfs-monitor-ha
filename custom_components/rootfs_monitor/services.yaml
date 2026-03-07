@@ -1,0 +1,91 @@
+cleanup_docker:
+  name: Cleanup Docker Disk Usage
+  description: Prune unused Docker data with safe defaults.
+  fields:
+    dry_run:
+      name: Dry Run
+      description: If true, preview the action without deleting anything.
+      default: true
+      selector:
+        boolean: {}
+    all_images:
+      name: Remove All Unused Images
+      description: Include unused images, not only dangling ones.
+      default: false
+      selector:
+        boolean: {}
+    include_volumes:
+      name: Include Anonymous Volumes
+      description: Also prune anonymous volumes not referenced by containers.
+      default: false
+      selector:
+        boolean: {}
+    until:
+      name: Until Filter
+      description: Optional Docker until filter like 168h.
+      example: "168h"
+      selector:
+        text: {}
+
+cleanup_journald:
+  name: Cleanup Journald Archive
+  description: Rotate and vacuum host journal archives by size and/or age.
+  fields:
+    dry_run:
+      name: Dry Run
+      description: If true, preview the action without deleting anything.
+      default: true
+      selector:
+        boolean: {}
+    vacuum_size:
+      name: Vacuum Size
+      description: Keep archived journals under this size (e.g. 1G).
+      example: "1G"
+      selector:
+        text: {}
+    vacuum_time:
+      name: Vacuum Time
+      description: Remove archived journals older than this age (e.g. 30d).
+      example: "30d"
+      selector:
+        text: {}
+
+cleanup_apt_cache:
+  name: Cleanup APT Cache
+  description: Run apt-get autoclean or clean on the host through chroot.
+  fields:
+    dry_run:
+      name: Dry Run
+      description: If true, preview the action without deleting anything.
+      default: true
+      selector:
+        boolean: {}
+    mode:
+      name: Mode
+      description: autoclean removes obsolete packages, clean removes all cached packages.
+      default: autoclean
+      selector:
+        select:
+          options:
+            - "autoclean"
+            - "clean"
+
+cleanup_var_log:
+  name: Cleanup Rotated /var/log Files
+  description: Remove old rotated and compressed logs only.
+  fields:
+    dry_run:
+      name: Dry Run
+      description: If true, preview the action without deleting anything.
+      default: true
+      selector:
+        boolean: {}
+    min_age_days:
+      name: Minimum Age Days
+      description: Remove only files older than this age.
+      default: 7
+      selector:
+        number:
+          min: 1
+          max: 365
+          mode: box
