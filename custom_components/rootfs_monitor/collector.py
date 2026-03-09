@@ -157,8 +157,17 @@ def _collect_docker_usage() -> dict[str, Any]:
     """Collect Docker disk usage summary when docker CLI is available."""
     docker = shutil.which("docker")
     if not docker:
-        return {"available": False, "reason": "docker_cli_missing"}
+        return {
+            "available": False,
+            "reason": "docker_cli_missing",
+            "images_bytes": 0,
+            "containers_bytes": 0,
+            "volumes_bytes": 0,
+            "build_cache_bytes": 0,
+            "total_bytes": 0,
+        }
 
+    # Try JSON format first
     result = _run_command([docker, "system", "df", "--format", "json"], timeout=20)
     if result.return_code == 0 and result.stdout.strip():
         parsed = _parse_docker_json(result.stdout)
@@ -167,7 +176,7 @@ def _collect_docker_usage() -> dict[str, Any]:
             parsed["source"] = "json"
             return parsed
 
-    # Fallback to table parsing.
+    # Fallback to table parsing
     result = _run_command([docker, "system", "df"], timeout=20)
     if result.return_code == 0 and result.stdout.strip():
         parsed = _parse_docker_table(result.stdout)
@@ -176,10 +185,24 @@ def _collect_docker_usage() -> dict[str, Any]:
             parsed["source"] = "table"
             return parsed
 
+    # Detect specific failure reasons
+    stderr_lower = result.stderr.lower()
+    if "permission denied" in stderr_lower or "socket" in stderr_lower:
+        reason = "docker_socket_permission"
+    elif "cannot connect" in stderr_lower or "not running" in stderr_lower:
+        reason = "docker_daemon_unavailable"
+    else:
+        reason = "docker_df_failed"
+
     return {
         "available": False,
-        "reason": "docker_df_failed",
-        "stderr": result.stderr.strip()[:300],
+        "reason": reason,
+        "error_detail": result.stderr.strip()[:200],
+        "images_bytes": 0,
+        "containers_bytes": 0,
+        "volumes_bytes": 0,
+        "build_cache_bytes": 0,
+        "total_bytes": 0,
     }
 
 

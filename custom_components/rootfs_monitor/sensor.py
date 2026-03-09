@@ -81,11 +81,12 @@ BASE_SENSORS: tuple[RootFSSensorDescription, ...] = (
         native_unit_of_measurement=UnitOfInformation.BYTES,
         device_class=SensorDeviceClass.DATA_SIZE,
         state_class=SensorStateClass.MEASUREMENT,
-        value_fn=lambda data: data["consumers"]["docker"].get("total_bytes"),
+        value_fn=lambda data: data["consumers"]["docker"].get("total_bytes", 0),
         attrs_fn=lambda data: {
-            "docker_available": data["consumers"]["docker"].get("available", False),
-            "docker_source": data["consumers"]["docker"].get("source"),
-            "docker_reason": data["consumers"]["docker"].get("reason"),
+            "available": data["consumers"]["docker"].get("available", False),
+            "source": data["consumers"]["docker"].get("source"),
+            "reason": data["consumers"]["docker"].get("reason"),
+            "error_detail": data["consumers"]["docker"].get("error_detail"),
         },
     ),
     RootFSSensorDescription(
@@ -94,7 +95,7 @@ BASE_SENSORS: tuple[RootFSSensorDescription, ...] = (
         native_unit_of_measurement=UnitOfInformation.BYTES,
         device_class=SensorDeviceClass.DATA_SIZE,
         state_class=SensorStateClass.MEASUREMENT,
-        value_fn=lambda data: data["consumers"]["docker"].get("images_bytes"),
+        value_fn=lambda data: data["consumers"]["docker"].get("images_bytes", 0),
     ),
     RootFSSensorDescription(
         key="docker_containers_bytes",
@@ -102,7 +103,7 @@ BASE_SENSORS: tuple[RootFSSensorDescription, ...] = (
         native_unit_of_measurement=UnitOfInformation.BYTES,
         device_class=SensorDeviceClass.DATA_SIZE,
         state_class=SensorStateClass.MEASUREMENT,
-        value_fn=lambda data: data["consumers"]["docker"].get("containers_bytes"),
+        value_fn=lambda data: data["consumers"]["docker"].get("containers_bytes", 0),
     ),
     RootFSSensorDescription(
         key="docker_volumes_bytes",
@@ -110,7 +111,7 @@ BASE_SENSORS: tuple[RootFSSensorDescription, ...] = (
         native_unit_of_measurement=UnitOfInformation.BYTES,
         device_class=SensorDeviceClass.DATA_SIZE,
         state_class=SensorStateClass.MEASUREMENT,
-        value_fn=lambda data: data["consumers"]["docker"].get("volumes_bytes"),
+        value_fn=lambda data: data["consumers"]["docker"].get("volumes_bytes", 0),
     ),
     RootFSSensorDescription(
         key="docker_build_cache_bytes",
@@ -118,7 +119,7 @@ BASE_SENSORS: tuple[RootFSSensorDescription, ...] = (
         native_unit_of_measurement=UnitOfInformation.BYTES,
         device_class=SensorDeviceClass.DATA_SIZE,
         state_class=SensorStateClass.MEASUREMENT,
-        value_fn=lambda data: data["consumers"]["docker"].get("build_cache_bytes"),
+        value_fn=lambda data: data["consumers"]["docker"].get("build_cache_bytes", 0),
     ),
     RootFSSensorDescription(
         key="journald_disk_usage_bytes",
